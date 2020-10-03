@@ -1,7 +1,9 @@
 import subprocess as sp
 import pymysql
 import pymysql.cursors
-
+from aditya import *
+from suyash import *
+from tushar import *
 
 def option2():
     """
@@ -85,9 +87,10 @@ def dispatch(ch):
 
 # Global
 while(1):
-    tmp = sp.call('clear', shell=True)
     
     # Can be skipped if you want to hard core username and password
+    tmp = sp.call('clear', shell=True)
+    xs()
     username = input("Username: ")
     password = input("Password: ")
     port = int(input("Port: "))

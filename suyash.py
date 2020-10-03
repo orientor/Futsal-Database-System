@@ -7,6 +7,12 @@ def gender(gen):
     return 1
 
 def datecheck(date):
+    try:
+        datetime.datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        return 1
+
     now=date.today()
     if(date>now):
         print("YOU CANNOT BE dob IN FUTURE")
@@ -14,6 +20,12 @@ def datecheck(date):
     return 0
 
 def playeragecheck(dob):
+    try:
+        datetime.datetime.strptime(dob, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+        return 1
+
     today=date.today()
     age=today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
     if(age<18):

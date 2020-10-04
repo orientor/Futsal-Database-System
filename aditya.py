@@ -2,6 +2,7 @@ def check_name(naam):
     for i in naam:
         if not ( i.isalpha() or  i==' '):
             print("Error: Name should only contain alphabets and spaces.")
+            z= input("Negro")
             return 1
     return 0
 

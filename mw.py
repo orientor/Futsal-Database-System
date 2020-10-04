@@ -4,6 +4,9 @@ import pymysql.cursors
 from aditya import *
 from suyash import *
 from tushar import *
+from aditya_q import *
+from suyash_q import *
+from tushar_q import *
 
 def option2():
     """
@@ -68,13 +71,13 @@ def hireAnEmployee():
     return
 
 
-def dispatch(ch):
+def dispatch(ch, con, cur):
     """
     Function that maps helper functions to option entered
     """
 
     if(ch == 1):
-        hireAnEmployee()
+        query_1(con,cur)
     elif(ch == 2):
         option2()
     elif(ch == 3):
@@ -89,8 +92,7 @@ def dispatch(ch):
 while(1):
     
     # Can be skipped if you want to hard core username and password
-    tmp = sp.call('clear', shell=True)
-    xs()
+    #tmp = sp.call('clear', shell=True)
     username = input("Username: ")
     password = input("Password: ")
     port = int(input("Port: "))
@@ -100,10 +102,10 @@ while(1):
         con = pymysql.connect(host='localhost',
                               user=username,
                               password=password,
-                              db='COMPANY',
+                              db='futsal',
                               port=port,
                               cursorclass=pymysql.cursors.DictCursor)
-        tmp = sp.call('clear', shell=True)
+        #tmp = sp.call('clear', shell=True)
 
         if(con.open):
             print("Connected")
@@ -112,10 +114,9 @@ while(1):
 
         tmp = input("Enter any key to CONTINUE>")
 
-        with con:
-            cur = con.cursor()
+        with con.cursor() as cur:
             while(1):
-                tmp = sp.call('clear', shell=True)
+                #tmp = sp.call('clear', shell=True)
                 # Here taking example of Employee Mini-world
                 print("1. Option 1") # Hire an Employee
                 print("2. Option 2") # Fire an Employee
@@ -123,14 +124,14 @@ while(1):
                 print("4. Option 4") # Employee Statistics
                 print("5. Logout")
                 ch = int(input("Enter choice> "))
-                tmp = sp.call('clear', shell=True)
+                #tmp = sp.call('clear', shell=True)
                 if ch == 5:
                     break
                 else:
-                    dispatch(ch)
+                    dispatch(ch, con, cur)
                     tmp = input("Enter any key to CONTINUE>")
 
     except:
-        tmp = sp.call('clear', shell=True)
+        #tmp = sp.call('clear', shell=True)
         print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
         tmp = input("Enter any key to CONTINUE>")

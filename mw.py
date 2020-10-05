@@ -125,7 +125,4 @@ while(1):
             print("5. Logout")
             ch = int(input("Enter choice> "))
             #tmp = sp.call('clear', shell=True)
-            if ch == 5:
-                break
-            else:
-                dispatch(ch, con, cur)
+            dispatch(ch, con, cur)

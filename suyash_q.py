@@ -7,7 +7,6 @@ def suy(ch, con, cur):
 
 
 def query_5(con, cur):
-    print("GEIIIIIIII")
     team1 = input("Enter First Team:")
     team2 = input("Enter Second Team")
     stadium = input("Enter the first phone number of the stadium")
@@ -57,6 +56,8 @@ def query_5(con, cur):
             query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, {team2});"
             cur.execute(query2)
             con.commit()
+        stadium_increment(stadium)
+        referee_increment(ref)
 
     else:
         return 1

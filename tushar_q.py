@@ -47,6 +47,9 @@ def query_10(con, cur):
         print(e)
     con.commit()
     print("Successfully Inserted into database")
+    id=cur.lastrowid
+    print("The referee ID is ", id)
+    print()
 
 ##########################################################################################>>>>>>>>>>>>>>>>>>>>>>> REFEREE ID WASN'T OUTPUTTED
 
@@ -102,7 +105,7 @@ def query_12(con, cur):
         except Exception as e:
             print(e)
 
-        
+
     con.commit()
     print("Successfully Inserted into database")
 
@@ -209,11 +212,11 @@ def query_8(con, cur):
 #################################################### R E T R I E V E L S ##########################################
 
 def query_17(con, cur):
-    
+
     sco = -1
     query = f"SELECT * from player;"
     cur.execute(query)
-    
+
     for row in cur:
         tg = int(row['total_goals'])
         if(sco<tg):
@@ -269,7 +272,7 @@ def query_20(con, cur):
     except:
         print("X should be integer")
         return 0
-    
+
     query = f"SELECT * from team ORDER BY 2*wins+draw DESC;"
     cur.execute(query)
 
@@ -281,7 +284,7 @@ def query_20(con, cur):
         print("There are only ","")
         print(sz," team(s), enter a smaller x")
         return
-    
+
     table = list()
     table.append(["name","wins","losses", "draw", "score"])
 
@@ -327,7 +330,7 @@ def query_24(con, cur):
         x = int(input("Enter x to get stadiums where x highest scoring matches were played:"))
     except:
         print("x should be int")
-    
+
     query = "select s.name, a.building_name, a.street_name, a.area, a.city from futsal_match fm, stadium s, stadium_address a where fm.sfpn=s.fpn and fm.sfpn=a.fpn order by total_goals desc;"
     ll = cur.execute(query)
     print("YO")

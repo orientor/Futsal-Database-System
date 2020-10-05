@@ -4,6 +4,14 @@ from tushar import *
 def suy(ch, con, cur):
     if(ch==5):
         query_5(con,cur)
+    if(ch==9):
+        query_9(con,cur)
+    if(ch==14):
+        query_14(con,cur)
+    if(ch==21):
+        query_21(con,cur)
+    if(ch==22):
+        query_22(con,cur)
 
 
 def query_5(con, cur):
@@ -73,47 +81,50 @@ def query_9(con, cur):
     team_name = input("Enter the Team of the coach to be replaced")
     experience=int(input("Enter experience of the coach"))
     gender=input("Enter M or F")
-    query = f"UPDATE coach SET experience = '{experience}', gender='{gender}' WHERE team_name='{team_name}';"
+    query = f"UPDATE coach SET experience = {experience}, gender='{gender}' WHERE team_name='{team_name}';"
     try:
-        curr.execute(query)
-        con.commit()
-    except:
+        cur.execute(query)
+    except Exception as e:
+        print(e)
         print("The Team does not exist.")
         return
     query = f"UPDATE coach_name SET first_name='{first_name}', middle_name='{middle_name}', last_name='{last_name}' WHERE team_name='{team_name}';"
     try:
-        curr.execute(query)
-        con.commit()
-    except:
+        cur.execute(query)
+    except Exception as e:
+        print(e)
         print("The Team does not exist.")
         return
+    con.commit()
 
 def query_14(con, cur):
     team_name=input("Enter team name")
     jersey=int(input("Enter jersey number"))
     match_id=int(input("Enter match ID"))
-    spn=input("Enter stadium's first phone number")
-    query1=f"SELECT EXISTS(SELECT * FROM goals_scored WHERE pjn='{jersey}' AND team_name='{team_name}' AND match_id='{match_id}' ;);"
+    query1=f"SELECT * FROM goal_scored WHERE pjn={jersey} AND team_name='{team_name}' AND match_id='{match_id}';"
     try:
-        val=curr.execute(query1)
+        val=cur.execute(query1)
         print(val)
         if val==0:
-            query=f"INSERT INTO goal_scored(pjn, team_name, match_id, nog) VALUES ({jersey}, {team_name}, {match_id}, 1);"
+            query=f"INSERT INTO goal_scored(pjn, team_name, match_id, nog) VALUES ({jersey}, '{team_name}', '{match_id}', 1);"
         else:
-            query = f"UPDATE goal_scored SET nog = nog + 1 WHERE pjn='{jersey}' AND team_name='{team_name}' AND match_id='{match_id}' ;"
-        curr.execute(query)
+            query = f"UPDATE goal_scored SET nog = nog + 1 WHERE pjn={jersey} AND team_name='{team_name}' AND match_id='{match_id}' ;"
+        cur.execute(query)
         con.commit()
-    except:
+    except Exception as e:
+        print(e)
         print("Invalid details")
 
 def query_21(con, cur):
     team_name=input("Enter team name")
-    query = f"SELECT * from team WHERE name={team_name};"
+    query = f"SELECT * from team WHERE name='{team_name}';"
     cur.execute(query)
     table = list()
-    table.append(["team name","wins","losses", "draw"])
+    table.append(["team name","wins","losses", "draw", "score"])
     for row in cur:
-        table.append([row['name'], row['wins'], row['losses'], row['draw']])
+        score = 2*int(row['wins'])+int(row['draw'])
+        score = str(score)
+        table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
     print_table(table)
 
 def query_22(con, cur):
@@ -123,7 +134,7 @@ def query_22(con, cur):
     except ValueError:
         print("You have to enter integer")
         return
-    query1=f"SELECT team_name from team_match WHERE match_id={match_id};"
+    query1=f"SELECT team_name from team_match WHERE match_id='{match_id}';"
     cur.execute(query1)
     i=0
     for row in cur:
@@ -141,9 +152,9 @@ def query_22(con, cur):
             loser=team2
         else:
             loser=team1
-        query=f"SELECT building_name FROM stadium WHERE fpn={row['sfpn']};"
+        query=f"SELECT name FROM stadium WHERE fpn='{row['sfpn']}';"
         cur.execute(query)
         for row in cur:
             stadname=row['building_name']
-        print(row['match_id'], row['match_date'], row['winner_id'], loser, row['total_goals'], stadname)
+        #print(row['match_id'], row['match_date'], row['winner_id']!=NULL?row['winner_id]':"tied",row['winner_id']==NULL?loser:"tied", row['total_goals'], stadname)
     print_table(table)

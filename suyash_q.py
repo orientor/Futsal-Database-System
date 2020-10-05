@@ -20,15 +20,15 @@ def query_5(con, cur):
     stadium = input("Enter the first phone number of the stadium")
     ref = input("Enter referee ID")
     dat=input("Enter date of the match")
-    if((not check_name(team1) and  not check_name(team2) and  not check_number(stadium) and  not ref.isnumeric() and not datecheck(dat))):
+    if((check_name(team1) and  check_name(team2) and  check_number(stadium) and ref.isnumeric() and datecheck(dat))):
         query = f"INSERT INTO futsal_match(match_date, sfpn) VALUES('{dat}', '{stadium}');"
         try:
             cur.execute(query)
         except Exception as e:
             print(e)
+            return 0
         print(query)
         con.commit()
-        query = f"SELECT AUTO_INCREMENT FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'futsal' AND   TABLE_NAME   = 'futsal_match';"
         id=cur.lastrowid
         print("ID ISSSS", id)
         query = f"INSERT INTO team_match(team_name, match_id) VALUES('{team1}', {id});"
@@ -71,6 +71,7 @@ def query_5(con, cur):
         con.commit()
 
     else:
+        print("Something is wrong")
         return 1
     print(query)
     con.commit()

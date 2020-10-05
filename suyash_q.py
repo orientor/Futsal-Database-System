@@ -65,11 +65,11 @@ def query_5(con, cur):
             cur.execute(query2)
             con.commit()
         stadium_increment(stadium)
-        query = f"UPDATE referee SET matches_judged=matches_judged+1 WHERE referee_id={ref}";
-        cur.execute(query);
-        query = f"UPDATE stadium SET nomp=nomp+1 WHERE fpn='{stadium}'";
-        cur.execute(query);
-        con.commit();
+        query = f"UPDATE referee SET matches_judged=matches_judged+1 WHERE referee_id={ref};"
+        cur.execute(query)
+        query = f"UPDATE stadium SET nomp=nomp+1 WHERE fpn='{stadium}';"
+        cur.execute(query)
+        con.commit()
 
     else:
         return 1

@@ -139,8 +139,12 @@ def query_22(con, cur):
         print("You have to enter integer")
         return
     query1=f"SELECT team_name from team_match WHERE match_id='{match_id}';"
-    cur.execute(query1)
+    try:
+        cur.execute(query1)
+    except Exception as e:
+        print(e)
     i=0
+    team1=team2=loser=match_date=total_goals=winner_id=""
     for row in cur:
         if i==0:
             team1=row['team_name']
@@ -157,8 +161,16 @@ def query_22(con, cur):
         else:
             loser=team1
         query=f"SELECT name FROM stadium WHERE fpn='{row['sfpn']}';"
-        cur.execute(query)
-        for row in cur:
-            stadname=row['building_name']
-        #print(row['match_id'], row['match_date'], row['winner_id']!=NULL?row['winner_id]':"tied",row['winner_id']==NULL?loser:"tied", row['total_goals'], stadname)
+        match_date=row['match_date']
+        total_goals=row['total_goals']
+        winner_id=row['winner_id']
+    cur.execute(query)
+    for row in cur:
+        stadname=row['name']
+    table=list()
+    table.append(["match id", "match date", "winner" ,"loser", "total goals", "stadium"])
+    if winner_id is None:
+        table.append([match_id, match_date, "TIED","TIED", total_goals, stadname])
+    else:
+        table.append([match_id, match_date, winner_id,loser, total_goals, stadname])
     print_table(table)

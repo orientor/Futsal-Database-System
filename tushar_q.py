@@ -318,3 +318,33 @@ def query_23(con, cur):
             cnt=cnt+1
 
     print_table(table)
+
+def query_24(con, cur):
+
+    x = input("Enter x to get stadiums where x highest scoring matches were played:")
+    
+    query = f."select s.name, a.building_name, a.street_name, a.area, a.city from futsal_match fm, stadium s, stadium_address a where fm.sfpn=s.fpn and fm.spfn=a.fpn order by total_goals desc;"
+    cur.execute(query)
+
+    sz=0
+    for row in cur:
+        sz=sz+1
+
+    if (sz<x):
+        print("There are only ","")
+        print(sz," teams, enter a smaller x")
+        return
+
+    table = list()
+    table.append(["Sno.","Stadium Name","Building Name", "Street Name", "Area", "City"])
+
+    cnt=0
+    cur.execute(query)
+    for row in cur:
+        if (cnt<x):
+            sno = cnt+1
+            sno = str(score)
+            table.append([sno, row['s.name'], row['a.building_name'], row['a.street_name'], row['a.area'], row['a.city']])
+            cnt=cnt+1
+
+    print_table(table)

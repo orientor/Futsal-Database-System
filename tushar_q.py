@@ -21,6 +21,9 @@ def tushar(ch,con,cur):
         query_20(con,cur)
     elif ch==23:
         query_23(con,cur)
+    elif ch==24:
+        query_24(con,cur)
+
     return 1
 
 
@@ -320,11 +323,15 @@ def query_23(con, cur):
     print_table(table)
 
 def query_24(con, cur):
-
-    x = input("Enter x to get stadiums where x highest scoring matches were played:")
+    try:
+        x = int(input("Enter x to get stadiums where x highest scoring matches were played:"))
+    except:
+        print("x should be int")
     
-    query = f."select s.name, a.building_name, a.street_name, a.area, a.city from futsal_match fm, stadium s, stadium_address a where fm.sfpn=s.fpn and fm.spfn=a.fpn order by total_goals desc;"
-    cur.execute(query)
+    query = "select s.name, a.building_name, a.street_name, a.area, a.city from futsal_match fm, stadium s, stadium_address a where fm.sfpn=s.fpn and fm.sfpn=a.fpn order by total_goals desc;"
+    ll = cur.execute(query)
+    print("YO")
+    print(ll)
 
     sz=0
     for row in cur:
@@ -332,7 +339,7 @@ def query_24(con, cur):
 
     if (sz<x):
         print("There are only ","")
-        print(sz," teams, enter a smaller x")
+        print(sz," matches, enter a smaller x")
         return
 
     table = list()
@@ -344,7 +351,7 @@ def query_24(con, cur):
         if (cnt<x):
             sno = cnt+1
             sno = str(score)
-            table.append([sno, row['s.name'], row['a.building_name'], row['a.street_name'], row['a.area'], row['a.city']])
+            table.append([sno, row['name'], row['building_name'], row['street_name'], row['area'], row['city']])
             cnt=cnt+1
 
     print_table(table)

@@ -172,7 +172,7 @@ def query_13(con, cur):
 
 
 
-#################################################################################### C O A C H ##########################################
+########################################################## C O A C H ##############################################
 
 def query_8(con, cur):
     team_name = input("Enter team_name:")
@@ -202,7 +202,7 @@ def query_8(con, cur):
 
 
 
-######################################################### Retrievals #################################################
+#################################################### R E T R I E V E L S ##########################################
 
 def query_17(con, cur):
     
@@ -288,6 +288,32 @@ def query_20(con, cur):
             score = 2*int(row['wins'])+int(row['draw'])
             score = str(score)
             table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
+            cnt=cnt+1
+
+    print_table(table)
+
+################################### A N A L Y S I S ############################################
+
+def query_20(con, cur):
+    query = f"select t.name, c.first_name, c.middle_name, c.last_name from coach_name c, team t where t.name=c.team_name order by 2*wins+draw desc;"
+    cur.execute(query)
+
+    sz=0
+    for row in cur:
+        sz=sz+1
+
+    ctr=min(3,sz)
+
+    table = list()
+    table.append(["Sno.","team_name","first_name","middle_name","last_name"])
+
+    cnt=0
+    cur.execute(query)
+    for row in cur:
+        if (cnt<ctr):
+            sno = cnt+1
+            sno = str(sno)
+            table.append([sno, row['t.name'], row['c.first_name'], row['c.middle_name'], row['c.last_name']])
             cnt=cnt+1
 
     print_table(table)

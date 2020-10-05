@@ -279,7 +279,7 @@ def query_20(con, cur):
 
     if (sz<x):
         print("There are only ","")
-        print(sz," teams, enter a smaller x")
+        print(sz," team(s), enter a smaller x")
         return
     
     table = list()
@@ -339,7 +339,7 @@ def query_24(con, cur):
 
     if (sz<x):
         print("There are only ","")
-        print(sz," matches, enter a smaller x")
+        print(sz," match(es), enter a smaller x")
         return
 
     table = list()
@@ -350,7 +350,7 @@ def query_24(con, cur):
     for row in cur:
         if (cnt<x):
             sno = cnt+1
-            sno = str(score)
+            sno = str(sno)
             table.append([sno, row['name'], row['building_name'], row['street_name'], row['area'], row['city']])
             cnt=cnt+1
 

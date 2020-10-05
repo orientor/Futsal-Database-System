@@ -19,7 +19,8 @@ def tushar(ch,con,cur):
         query_19(con,cur)
     elif ch==20:
         query_20(con,cur)
-
+    elif ch==23:
+        query_23(con,cur)
     return 1
 
 
@@ -294,7 +295,7 @@ def query_20(con, cur):
 
 ################################### A N A L Y S I S ############################################
 
-def query_20(con, cur):
+def query_23(con, cur):
     query = f"select t.name, c.first_name, c.middle_name, c.last_name from coach_name c, team t where t.name=c.team_name order by 2*wins+draw desc;"
     cur.execute(query)
 
@@ -313,7 +314,7 @@ def query_20(con, cur):
         if (cnt<ctr):
             sno = cnt+1
             sno = str(sno)
-            table.append([sno, row['t.name'], row['c.first_name'], row['c.middle_name'], row['c.last_name']])
+            table.append([sno, row['name'], row['first_name'], row['middle_name'], row['last_name']])
             cnt=cnt+1
 
     print_table(table)

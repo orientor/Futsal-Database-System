@@ -77,14 +77,17 @@ def dispatch(ch, con, cur):
     if(ch == 1):
         query_1(con,cur)
     elif(ch == 2):
-        option2()
+        query_2(con,cur)
     elif(ch == 3):
-        print("YO")
         query_3(con, cur)
     elif(ch == 4):
-        option4()
+        query_4(con,cur)
+    elif(ch == 6):
+        query_6(con,cur)
     elif(ch==15):
         query_15(con, cur)
+    elif(ch==16):
+        query_16(con, cur)
     suy(ch, con, cur)
     tushar(ch, con, cur)
 

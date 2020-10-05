@@ -68,14 +68,15 @@ def delete_player(team_name, jersey_no, con, cur):
     jersey_no = int(jersey_no)
     cpt = get_team_captain(team_name,con,cur)
     query = f"DELETE FROM team_captain WHERE pjn={jersey_no} AND team_name='{team_name}';";
-    curr.execute();
+    cur.execute(query);
     for x in ["goalrakshak", "forward", "defence", "midfielder"]:
         query = f"DELETE FROM {x} WHERE pjn={jersey_no} AND team_name='{team_name}';"
-        curr.execute()
-    query = f"DELETE from team WHERE name='{team_name}';"
+        cur.execute(query)
+    query = f"DELETE from player WHERE team_name='{team_name}' AND jersey_no={jersey_no};"
     try:
-        curr.execute()
-    except:
+        cur.execute(query)
+    except Exception as e:
+        print(e)
         print("This player has played one or matches. He has been set in history hence cannot be deleted.")
         return 0
     con.commit()
@@ -86,13 +87,14 @@ def query_2(con, cur):
     if not (check_team(team_name, con, cur)):
         return 1
     query = f"SELECT jersey_no from player WHERE team_name='{team_name}';"
-    curr.execute()
-    for row in curr:
+    cur.execute(query)
+    for row in cur:
         jersey_no=row['jersey_no']
         if not (delete_player(team_name, jersey_no, con, cur)):
             return
+    query = f"DELETE FROM team WHERE name='{team_name}';"
     try:
-        curr.execute()
+        cur.execute(query)
     except:
         print("This player has played one or matches. He has been set in history hence cannot be deleted.")
         return 0
@@ -102,23 +104,29 @@ def query_2(con, cur):
 def query_6(con, cur):
     match_id = input("match_id")
     try:
-        match_id=int(input(match_id))
+        match_id=int(match_id)
     except:
         print("id should be integer")
+        return
     winner_id=input("winner_id:")
     loser_id=input("loser id:")
-    query = f"UPDATE futsal_match SET winner_id = '{winner_id}' WHERE match_id=match_id;"
+    if(not (check_team(winner_id,con,cur) and check_team(loser_id,con,cur))):
+        print("One of the team names is incorrect")
+        return 0
+    query = f"UPDATE futsal_match SET winner_id = '{winner_id}' WHERE match_id={match_id};"
     try:
-        curr.execute(query)
-    except:
+        cur.execute(query)
+    except Exception as e:
+        print(e)
         print("The match id does not exist.")
         return
     if not (check_team(winner_id,con,cur) and check_team(winner_id,con,cur)):
         return
-    query = f"UPDATE team SET wins = wins + 1 WHERE team_name='{winner_id}';"
-    curr.execute(query)
-    query = f"UPDATE team SET losses = losses + 1 WHERE team_name='{loser_id}';"
-    curr.execute()
+    query = f"UPDATE team SET wins = wins + 1 WHERE name='{winner_id}';"
+    cur.execute(query)
+    query = f"UPDATE team SET losses = losses + 1 WHERE name='{loser_id}';"
+    cur.execute(query)
+    con.commit()
 
 def query_16(con, cur):
     sco = input("Min score: ")

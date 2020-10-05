@@ -114,6 +114,10 @@ def query_14(con, cur):
         else:
             query = f"UPDATE goal_scored SET nog = nog + 1 WHERE pjn={jersey} AND team_name='{team_name}' AND match_id='{match_id}' ;"
         cur.execute(query)
+        query = f"UPDATE futsal_match SET total_goals = total_goals + 1 WHERE match_id='{match_id}' ;"
+        cur.execute(query)
+        query = f"UPDATE player SET total_goals = total_goals + 1 WHERE jersey_no={jersey} AND team_name='{team_name}' ;"
+        cur.execute(query)
         con.commit()
     except Exception as e:
         print(e)

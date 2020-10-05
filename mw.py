@@ -84,6 +84,10 @@ def dispatch(ch, con, cur):
         query_4(con,cur)
     elif(ch == 6):
         query_6(con,cur)
+    elif(ch == 7):
+        query_7(con,cur)
+    elif(ch == 11):
+        query_11(con,cur)
     elif(ch==15):
         query_15(con, cur)
     elif(ch==16):

@@ -101,6 +101,21 @@ def query_2(con, cur):
     con.commit()
     return 1
 
+def query_11(con, cur):
+    ref_id = input("Referee id:")
+    try:
+        ref_id=int(ref_id)
+    except:
+        print("Referee id should be integer.")
+    query=f"DELETE FROM referee WHERE referee_id={ref_id};"
+    try:
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("The referee has now been set in history and hence cannot be deleted.")
+        return 0
+    con.commit()
+
 def query_6(con, cur):
     match_id = input("match_id")
     try:
@@ -159,5 +174,28 @@ def query_15(con, cur):
         age = get_player_age(row['dob'])
         table.append([row["team_name" ],row[ "first_name"],row[ "middle_name"],row[ "last_name"],row[ "dob" ],str(age),row[ "jersey_no"],row[ "total_goals"],row["position" ]])
     print_table(table)
+
+def query_7(con,cur):
+    match_id = input("Enter match id")
+    try:
+        match_id=int(match_id)
+    except:
+        print("Match id should be integer")
+        print(0)
+    query = f"SELECT team_name FROM team_match WHERE match_id={match_id};"
+    try:
+        cur.execute(query)
+    except Exception as e:
+        print(e)
+        print("Wrong match id")
+        return 0
+    com = list()
+    for row in cur:
+        temp=row['team_name']
+        query=f"UPDATE team SET draw = draw + 1 WHERE name='{temp}';"
+        com.append(query)
+    for x in com:
+        cur.execute(x)
+    con.commit()
 
     

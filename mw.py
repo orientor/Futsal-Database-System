@@ -69,8 +69,7 @@ def hireAnEmployee():
         print(">>>>>>>>>>>>>", e)
 
     return
-
-
+def suy():
 def dispatch(ch, con, cur):
     """
     Function that maps helper functions to option entered
@@ -87,8 +86,8 @@ def dispatch(ch, con, cur):
         option4()
     elif(ch==15):
         query_15(con, cur)
-    else:
-        print("Error: Invalid Option")
+    suy(ch, con, cur)
+    tushar(ch, con, cur)
 
 
 # Global

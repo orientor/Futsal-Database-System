@@ -7,6 +7,7 @@ def suy(ch, con, cur):
 
 
 def query_5(con, cur):
+    print("GEIIIIIIII")
     team1 = input("Enter First Team:")
     team2 = input("Enter Second Team")
     stadium = input("Enter the first phone number of the stadium")
@@ -18,9 +19,19 @@ def query_5(con, cur):
             cur.execute(query)
         except Exception as e:
             print(e)
+        print(query)
         con.commit()
-        id=cur.execute('SELECT last_insert_id();')
+        query = f"SELECT AUTO_INCREMENT FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'futsal' AND   TABLE_NAME   = 'futsal_match';"
+        id=cur.lastrowid
+        print("ID ISSSS", id)
         query = f"INSERT INTO team_match(team_name, match_id) VALUES({team1}, {id});"
+        print(query)
+        try:
+            cur.execute(query)
+        except Exception as e:
+            print(e)
+        con.commit()
+        query = f"INSERT INTO team_match(team_name, match_id) VALUES({team2}, {id});"
         print(query)
         try:
             cur.execute(query)
@@ -29,12 +40,24 @@ def query_5(con, cur):
         con.commit()
         query = f"INSERT INTO referee_match(referee_id, match_id) VALUES({ref}, {id});"
         print(query)
-        cur.execute(query)
         try:
             cur.execute(query)
         except Exception as e:
             print(e)
         con.commit()
+        query=f"select jersey_no from player where team_name={team1};"
+        cur.execute(query)
+        for row in cur:
+            query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, {team1});"
+            cur.execute(query2)
+            con.commit()
+        query=f"select jersey_no from player where team_name={team2};"
+        cur.execute(query)
+        for row in cur:
+            query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, {team2});"
+            cur.execute(query2)
+            con.commit()
+
     else:
         return 1
     print(query)

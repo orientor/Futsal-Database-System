@@ -85,6 +85,8 @@ def dispatch(ch, con, cur):
         query_3(con, cur)
     elif(ch == 4):
         option4()
+    elif(ch==15):
+        query_15(con, cur)
     else:
         print("Error: Invalid Option")
 

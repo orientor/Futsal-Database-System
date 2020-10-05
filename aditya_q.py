@@ -31,7 +31,7 @@ def query_3(con, cur):
     is_cpt = input("Is this player the new captain: (0,1)")
     if position == "goalkeeper":
         position = "goalrakshak"
-    if(check_name(team_name) and check_name_without_space(first_name) and check_name_without_space(middle_name) and check_name_without_space(last_name)
+    if(check_team(team_name, con, cur) and check_name_without_space(first_name) and check_name_without_space(middle_name) and check_name_without_space(last_name)
         and datecheck(dob) and  check_positive_int(jersey_no, "Jersey no.") and check_positive_int(total_goals, "Total goals") and check_position(position)):
         query = f"INSERT INTO player(team_name, first_name, middle_name, last_name, dob, jersey_no, total_goals, position)"
         query += f" VALUES('{team_name}', '{first_name}', '{middle_name}', '{last_name}', '{dob}', {jersey_no}, {total_goals}, '{position}');"
@@ -39,7 +39,6 @@ def query_3(con, cur):
     else:
         return 1
     print(query)
-    get_team_captain(team_name, con, cur)
     try:
         cur.execute(query)
     except Exception as e:
@@ -58,4 +57,14 @@ def query_3(con, cur):
     con.commit()
     print("Successfully Inserted into database")
 
+def query_15(con, cur):
+    team_name = input("Team: ")
+    if not (check_team(team_name, con, cur)):
+        return
+    query = f"SELECT * from team;"
+    cur.execute(query)
+    table.append("name wins losses draw score\n")
+    for row in cur:
+        score = str(2*int(row['wins'])+int(row['draw']))
+        table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
     

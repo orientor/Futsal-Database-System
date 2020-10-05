@@ -20,8 +20,8 @@ def query_5(con, cur):
     stadium = input("Enter the first phone number of the stadium")
     ref = input("Enter referee ID")
     dat=input("Enter date of the match")
-    if(1 or (not check_name(team1) and  not check_name(team2) and  not check_number(stadium) and  not ref.isnumeric() and not datecheck(dat))):
-        query = f"INSERT INTO futsal_match(match_date, sfpn) VALUES({dat}, {stadium});"
+    if((not check_name(team1) and  not check_name(team2) and  not check_number(stadium) and  not ref.isnumeric() and not datecheck(dat))):
+        query = f"INSERT INTO futsal_match(match_date, sfpn) VALUES('{dat}', '{stadium}');"
         try:
             cur.execute(query)
         except Exception as e:
@@ -31,14 +31,14 @@ def query_5(con, cur):
         query = f"SELECT AUTO_INCREMENT FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'futsal' AND   TABLE_NAME   = 'futsal_match';"
         id=cur.lastrowid
         print("ID ISSSS", id)
-        query = f"INSERT INTO team_match(team_name, match_id) VALUES({team1}, {id});"
+        query = f"INSERT INTO team_match(team_name, match_id) VALUES('{team1}', {id});"
         print(query)
         try:
             cur.execute(query)
         except Exception as e:
             print(e)
         con.commit()
-        query = f"INSERT INTO team_match(team_name, match_id) VALUES({team2}, {id});"
+        query = f"INSERT INTO team_match(team_name, match_id) VALUES('{team2}', {id});"
         print(query)
         try:
             cur.execute(query)
@@ -52,19 +52,18 @@ def query_5(con, cur):
         except Exception as e:
             print(e)
         con.commit()
-        query=f"select jersey_no from player where team_name={team1};"
+        query=f"select jersey_no from player where team_name='{team1}';"
         cur.execute(query)
         for row in cur:
-            query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, {team1});"
+            query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, '{team1}');"
             cur.execute(query2)
             con.commit()
-        query=f"select jersey_no from player where team_name={team2};"
+        query=f"select jersey_no from player where team_name='{team2}';"
         cur.execute(query)
         for row in cur:
-            query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, {team2});"
+            query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, '{team2}');"
             cur.execute(query2)
             con.commit()
-        stadium_increment(stadium)
         query = f"UPDATE referee SET matches_judged=matches_judged+1 WHERE referee_id={ref};"
         cur.execute(query)
         query = f"UPDATE stadium SET nomp=nomp+1 WHERE fpn='{stadium}';"

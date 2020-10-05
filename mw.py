@@ -69,7 +69,6 @@ def hireAnEmployee():
         print(">>>>>>>>>>>>>", e)
 
     return
-def suy():
 def dispatch(ch, con, cur):
     """
     Function that maps helper functions to option entered
@@ -92,29 +91,29 @@ def dispatch(ch, con, cur):
 
 # Global
 while(1):
-    
+
     # Can be skipped if you want to hard core username and password
     #tmp = sp.call('clear', shell=True)
-    #username = input("Username: ")
-    #password = input("Password: ")
-    #port = int(input("Port: "))
+    username = input("Username: ")
+    password = input("Password: ")
+    port = int(input("Port: "))
     # Set db name accordingly which have been create by you
-    # Set host to the server's address if you don't want to use local SQL server 
+    # Set host to the server's address if you don't want to use local SQL server
     con = pymysql.connect(host='localhost',
-      user='root',
-      password='blabla',
+      user=username,
+      password=password,
       db='futsal',
-      port=5005,
+      port=port,
       cursorclass=pymysql.cursors.DictCursor)
     #tmp = sp.call('clear', shell=True)
-    
+
     if(con.open):
         print("Connected")
     else:
         print("Failed to connect")
-    
+
     tmp = input("Enter any key to CONTINUE>")
-    
+
     with con.cursor() as cur:
         while(1):
         #tmp = sp.call('clear', shell=True)
@@ -130,4 +129,3 @@ while(1):
                 break
             else:
                 dispatch(ch, con, cur)
-    

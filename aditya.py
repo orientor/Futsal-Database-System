@@ -58,5 +58,5 @@ def check_position(position):
     return 0
 def print_table(x):
     for i in len(x[0]):
-        for j in len(x);
-
+        for j in len(x):
+            print(0)

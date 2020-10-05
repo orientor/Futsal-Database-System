@@ -11,6 +11,15 @@ def tushar(ch,con,cur):
         query_12(con,cur)
     elif ch==13:
         query_13(con,cur)
+    elif ch==17:
+        query_17(con,cur)
+    elif ch==18:
+        query_18(con,cur)
+    elif ch==19:
+        query_19(con,cur)
+    elif ch==20:
+        query_20(con,cur)
+
     return 1
 
 
@@ -205,15 +214,16 @@ def query_17(con, cur):
         tg = int(row['total_goals'])
         if(sco<tg):
             sco=tg
-            
+    print(sco)
     table = list()
     table.append(["team_name","first_name","middle_name", "last_name", "dob", "age", "jersey_no", "total_goals", "position"])
-    
+    cur.execute(query);
     for row in cur:
+        print("YO")
         tg = int(row['total_goals'])
         if(tg==sco):
             age = get_player_age(row['dob'])
-            table.append([row['team_name'], row['first_name'], row['middle_name'], row['last_name'], , row['dob'], str(age), row['jersey_no'], row['total_goals'], row['position']])
+            table.append([row['team_name'], row['first_name'], row['middle_name'], row['last_name'], row['dob'], str(age), row['jersey_no'], row['total_goals'], row['position']])
 
     print_table(table)
 
@@ -233,7 +243,7 @@ def query_18(con, cur):
             continue
         else:
             age = get_player_age(row['dob'])
-            table.append([row['team_name'], row['first_name'], row['middle_name'], row['last_name'], , row['dob'], str(age), row['jersey_no'], row['total_goals'], row['position']])
+            table.append([row['team_name'], row['first_name'], row['middle_name'], row['last_name'], row['dob'], str(age), row['jersey_no'], row['total_goals'], row['position']])
 
     print_table(table)
 
@@ -250,6 +260,11 @@ def query_19(con, cur):
 
 def query_20(con, cur):
     x = input("Enter x, to get top x teams:")
+    try:
+        x=int(x)
+    except:
+        print("X should be integer")
+        return 0
     
     query = f"SELECT * from team ORDER BY 2*wins+draw DESC;"
     cur.execute(query)
@@ -267,7 +282,7 @@ def query_20(con, cur):
     table.append(["name","wins","losses", "draw", "score"])
 
     cnt=0
-    
+    cur.execute(query)
     for row in cur:
         if (cnt<x):
             score = 2*int(row['wins'])+int(row['draw'])
@@ -276,4 +291,3 @@ def query_20(con, cur):
             cnt=cnt+1
 
     print_table(table)
->>>>>>> added 4 retrievals

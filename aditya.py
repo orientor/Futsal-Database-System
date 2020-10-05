@@ -1,3 +1,4 @@
+from datetime import datetime
 def check_name(naam):
     for i in naam:
         if not ( i.isalpha() or  i==' '):
@@ -57,6 +58,22 @@ def check_position(position):
         return 1
     return 0
 def print_table(x):
-    for i in len(x[0]):
-        for j in len(x):
-            print(0)
+    mlen = list()
+    for i in range(len(x[0])):
+        temp =0
+        for j in range(len(x)):
+            temp = max(temp, len(str(x[j][i])))
+        mlen.append(temp)
+    for row in x:
+        cnt=0
+        for ele in row:
+            print(str(ele), end='')
+            print((mlen[cnt]-len(str(ele)))*' ',end='')
+            print('|',end='')
+            cnt+=1
+        print("")
+
+def get_player_age(dob):
+    today=datetime.now()
+    age=today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    return age

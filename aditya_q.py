@@ -57,14 +57,36 @@ def query_3(con, cur):
     con.commit()
     print("Successfully Inserted into database")
 
+def query_16(con, cur):
+    sco = input("Min score: ")
+    try:
+        sco = int(sco)
+    except ValueError:
+        print("You have to enter integer")
+        return
+    query = f"SELECT * from team;"
+    cur.execute(query)
+    table = list()
+    table.append(["name","wins","losses", "draw", "score"])
+    for row in cur:
+        score = 2*int(row['wins'])+int(row['draw'])
+        if(score<sco):
+            continue
+        score = str(score)
+        table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
+    print_table(table)
+
 def query_15(con, cur):
     team_name = input("Team: ")
     if not (check_team(team_name, con, cur)):
         return
-    query = f"SELECT * from team;"
+    query = f"SELECT * from player WHERE team_name='{team_name}';"
     cur.execute(query)
-    table.append("name wins losses draw score\n")
+    table = list()
+    table.append(["team_name" , "first_name", "middle_name", "last_name", "dob" , "age", "jersey_no", "total_goals","position" ])
     for row in cur:
-        score = str(2*int(row['wins'])+int(row['draw']))
-        table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
+        age = get_player_age(row['dob'])
+        table.append([row["team_name" ],row[ "first_name"],row[ "middle_name"],row[ "last_name"],row[ "dob" ],str(age),row[ "jersey_no"],row[ "total_goals"],row["position" ]])
+    print_table(table)
+
     

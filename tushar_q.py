@@ -188,3 +188,92 @@ def query_8(con, cur):
         print(e)
     con.commit()
     print("Successfully Inserted into database")
+
+
+
+
+
+######################################################### Retrievals #################################################
+
+def query_17(con, cur):
+    
+    sco = -1
+    query = f"SELECT * from player;"
+    cur.execute(query)
+    
+    for row in cur:
+        tg = int(row['total_goals'])
+        if(sco<tg):
+            sco=tg
+            
+    table = list()
+    table.append(["team_name","first_name","middle_name", "last_name", "dob", "age", "jersey_no", "total_goals", "position"])
+    
+    for row in cur:
+        tg = int(row['total_goals'])
+        if(tg==sco):
+            age = get_player_age(row['dob'])
+            table.append([row['team_name'], row['first_name'], row['middle_name'], row['last_name'], , row['dob'], str(age), row['jersey_no'], row['total_goals'], row['position']])
+
+    print_table(table)
+
+
+def query_18(con, cur):
+
+    name = input("Enter name of player to search for :")
+    query = f"SELECT * from player;"
+    cur.execute(query)
+
+    table = list()
+    table.append(["team_name","first_name","middle_name", "last_name", "dob", "age", "jersey_no", "total_goals", "position"])
+
+    for row in cur:
+        naam=row['first_name']+" "+row['middle_name']+" "+row['last_name']
+        if name not in naam:
+            continue
+        else:
+            age = get_player_age(row['dob'])
+            table.append([row['team_name'], row['first_name'], row['middle_name'], row['last_name'], , row['dob'], str(age), row['jersey_no'], row['total_goals'], row['position']])
+
+    print_table(table)
+
+def query_19(con, cur):
+    query = f"SELECT * from team ORDER BY 2*wins+draw DESC;"
+    cur.execute(query)
+    table = list()
+    table.append(["name","wins","losses", "draw", "score"])
+    for row in cur:
+        score = 2*int(row['wins'])+int(row['draw'])
+        score = str(score)
+        table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
+    print_table(table)
+
+def query_20(con, cur):
+    x = input("Enter x, to get top x teams:")
+    
+    query = f"SELECT * from team ORDER BY 2*wins+draw DESC;"
+    cur.execute(query)
+
+    sz=0
+    for row in cur:
+        sz=sz+1
+
+    if (sz<x):
+        print("There are only ","")
+        print(sz," teams, enter a smaller x")
+        return
+    
+    table = list()
+    table.append(["name","wins","losses", "draw", "score"])
+
+    cnt=0
+    
+    for row in cur:
+        if (cnt<x):
+            score = 2*int(row['wins'])+int(row['draw'])
+            score = str(score)
+            table.append([row['name'], row['wins'], row['losses'], row['draw'], score])
+            cnt=cnt+1
+
+    print_table(table)
+>>>>>>> added 4 retrievals

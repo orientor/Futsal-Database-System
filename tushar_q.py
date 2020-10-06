@@ -338,7 +338,7 @@ def query_24(con, cur):
     except:
         print("x should be int")
 
-    query = "select s.name, a.building_name, a.street_name, a.area, a.city from futsal_match fm, stadium s, stadium_address a where fm.sfpn=s.fpn and fm.sfpn=a.fpn order by total_goals desc;"
+    query = "select s.name, s.fpn, a.building_name, a.street_name, a.area, a.city from futsal_match fm, stadium s, stadium_address a where fm.sfpn=s.fpn and fm.sfpn=a.fpn order by total_goals desc;"
     ll = cur.execute(query)
     print("YO")
     print(ll)
@@ -363,13 +363,14 @@ def query_24(con, cur):
         if (cnt<x):
             sno = cnt+1
             sno = str(sno)
-            query="select * from stadium where fpn='{row['fpn']}'"
+            temp=row['fpn']
+            query=f"select * from stadium where fpn='{temp}';"
             lst.append([sno, row['name'], row['building_name'], row['street_name'], row['area'], row['city'], query])
             cnt=cnt+1
     for val in lst:
         query=val[6]
         cur.execute(query)
         for row in cur:
-            table.append([val[0], val[1], val[2], val[3], val[4], val[5], row['fpn'], row['nom']])
+            table.append([val[0], val[1], val[2], val[3], val[4], val[5], row['fpn'], row['nomp']])
 
     print_table(table)

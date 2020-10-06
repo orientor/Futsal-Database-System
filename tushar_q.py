@@ -312,17 +312,23 @@ def query_23(con, cur):
     ctr=min(3,sz)
 
     table = list()
-    table.append(["Sno.","team_name","first_name","middle_name","last_name"])
+    table.append(["Sno.","team_name","first_name","middle_name","last_name", "Gender", "Experience"])
 
     cnt=0
     cur.execute(query)
+    lst=list()
     for row in cur:
         if (cnt<ctr):
             sno = cnt+1
             sno = str(sno)
-            table.append([sno, row['name'], row['first_name'], row['middle_name'], row['last_name']])
+            query=f"select * from coach where team_name='{team_name}';"
+            lst.append([sno, row['name'], row['first_name'], row['middle_name'], row['last_name'], query])
             cnt=cnt+1
-
+    for val in lst:
+        query=val[5]
+        cur.execute(query)
+        for row in cur:
+            table.append([val[0], val[1], val[2], val[3], val[4], row['gender'], row['experience']])
     print_table(table)
 
 def query_24(con, cur):

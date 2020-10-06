@@ -322,7 +322,6 @@ def query_23(con, cur):
             sno = cnt+1
             sno = str(sno)
             query=f"select * from coach where team_name='{team_name}';"
-            lst.append([sno, row['name'], row['first_name'], row['middle_name'], row['last_name'], query])
             cnt=cnt+1
     for val in lst:
         query=val[5]
@@ -352,7 +351,9 @@ def query_24(con, cur):
         return
 
     table = list()
-    table.append(["Sno.","Stadium Name","Building Name", "Street Name", "Area", "City"])
+    table.append(["Sno.","Stadium Name","Building Name", "Street Name", "Area", "City", "Phone number", "Number of matches"])
+
+    lst=list()
 
     cnt=0
     cur.execute(query)
@@ -360,7 +361,13 @@ def query_24(con, cur):
         if (cnt<x):
             sno = cnt+1
             sno = str(sno)
-            table.append([sno, row['name'], row['building_name'], row['street_name'], row['area'], row['city']])
+            query="select * from stadium where fpn='{row['fpn]}'"
+            lst.append([sno, row['name'], row['building_name'], row['street_name'], row['area'], row['city'], query])
             cnt=cnt+1
+    for val in lst:
+        query=val[6]
+        cur.execute(query)
+        for row in cur:
+            table.append([val[0], val[1], val[2], val[3], val[4], val[5], row['fpn'], row['nom']])
 
     print_table(table)

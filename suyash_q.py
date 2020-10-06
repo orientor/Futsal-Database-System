@@ -30,7 +30,7 @@ def query_5(con, cur):
         print(query)
         con.commit()
         id=cur.lastrowid
-        print("ID ISSSS", id)
+        print("The match has been inserted with ID", id)
         query = f"INSERT INTO team_match(team_name, match_id) VALUES('{team1}', {id});"
         print(query)
         try:

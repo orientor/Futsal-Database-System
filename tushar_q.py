@@ -302,7 +302,7 @@ def query_20(con, cur):
 ################################### A N A L Y S I S ############################################
 
 def query_23(con, cur):
-    query = f"select t.name, c.first_name, c.middle_name, c.last_name from coach_name c, team t where t.name=c.team_name order by 2*wins+draw desc;"
+    query = "select t.name, c.first_name, c.middle_name, c.last_name from coach_name c, team t where t.name=c.team_name order by 2*wins+draw desc;"
     cur.execute(query)
 
     sz=0
@@ -323,6 +323,7 @@ def query_23(con, cur):
             sno = str(sno)
             temp = row['name']
             query=f"select * from coach where team_name='{temp}';"
+            lst.append([sno, row['name'], row['first_name'], row['middle_name'], row['last_name'], query])
             cnt=cnt+1
     for val in lst:
         query=val[5]

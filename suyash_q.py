@@ -12,6 +12,10 @@ def suy(ch, con, cur):
         query_21(con,cur)
     if(ch==22):
         query_22(con,cur)
+    if(ch==26)
+        query_26(con,cur)
+    if(ch==27)
+        query_27(con, cur)
 
 
 def query_5(con, cur):
@@ -178,3 +182,39 @@ def query_22(con, cur):
     else:
         table.append([match_id, match_date, winner_id,loser, total_goals, stadname])
     print_table(table)
+
+def query_26(con, cur):
+    ref_id=int(input("Enter referee ID"))
+    query1=f"SELECT * FROM referee WHERE referee_id={ref_id};"
+    table = list()
+    table.append(["Referee ID", "First Name", "Middle Name", "Last Name", "Matches judged"])
+    try:
+        val=cur.execute(query1)
+        for row in cur:
+            table.append([row['ref_id'], row['matches_judged'], ['first_name'], ['middle_name'], ['last_name']])
+
+def query_27(con, cur):
+    phn=input("Enter Phone Number"))
+    query1=f"SELECT * FROM spectator_match sp, futsal_match m WHERE sp.fpn='{phn}'' AND m.match_id=sp.match_id;"
+    table = list()
+    table.append(["Match ID", "Date"])
+    try:
+        cur.execute(query1)
+        for row in cur:
+            table.append([row['match_id'], row['date']])
+    print_table(table)
+
+def query_28(con, cur):
+    team_name=input("Enter team name")
+    jersey=int(input("Enter jersey number"))
+    match_id=int(input("Enter match ID"))
+    query1=f"SELECT * FROM goal_scored WHERE pjn={jersey} AND team_name='{team_name}' AND match_id='{match_id}';"
+    try:
+        val=cur.execute(query1)
+        print(val)
+        if val==0:
+            print("Player has scored 0 goals")
+            print()
+        else:
+            for row in cur:
+                print("The player scored ",row['nog']," goals in the match")

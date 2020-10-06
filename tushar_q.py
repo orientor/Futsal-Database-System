@@ -361,7 +361,7 @@ def query_24(con, cur):
         if (cnt<x):
             sno = cnt+1
             sno = str(sno)
-            query="select * from stadium where fpn='{row['fpn]}'"
+            query="select * from stadium where fpn='{row['fpn']}'"
             lst.append([sno, row['name'], row['building_name'], row['street_name'], row['area'], row['city'], query])
             cnt=cnt+1
     for val in lst:

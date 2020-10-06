@@ -12,9 +12,11 @@ def suy(ch, con, cur):
         query_21(con,cur)
     if(ch==22):
         query_22(con,cur)
-    if(ch==26)
+    if(ch==26):
         query_26(con,cur)
-    if(ch==27)
+    if(ch==27):
+        query_27(con, cur)
+    if(ch==28):
         query_27(con, cur)
 
 
@@ -192,9 +194,14 @@ def query_26(con, cur):
         val=cur.execute(query1)
         for row in cur:
             table.append([row['ref_id'], row['matches_judged'], ['first_name'], ['middle_name'], ['last_name']])
+    except:
+        return 1
+    print_table(table)
+
+
 
 def query_27(con, cur):
-    phn=input("Enter Phone Number"))
+    phn=input("Enter Phone Number")
     query1=f"SELECT * FROM spectator_match sp, futsal_match m WHERE sp.fpn='{phn}'' AND m.match_id=sp.match_id;"
     table = list()
     table.append(["Match ID", "Date"])
@@ -202,6 +209,8 @@ def query_27(con, cur):
         cur.execute(query1)
         for row in cur:
             table.append([row['match_id'], row['date']])
+    except:
+        return 1
     print_table(table)
 
 def query_28(con, cur):

@@ -17,7 +17,7 @@ def suy(ch, con, cur):
     if(ch==27):
         query_27(con, cur)
     if(ch==28):
-        query_27(con, cur)
+        query_28(con, cur)
 
 
 def query_5(con, cur):
@@ -186,14 +186,18 @@ def query_22(con, cur):
     print_table(table)
 
 def query_26(con, cur):
-    ref_id=int(input("Enter referee ID"))
+    try:
+        ref_id=int(input("Enter referee ID"))
+    except:
+        print("Referee ID is not int.")
+        return
     query1=f"SELECT * FROM referee WHERE referee_id={ref_id};"
     table = list()
     table.append(["Referee ID", "First Name", "Middle Name", "Last Name", "Matches judged"])
     try:
         val=cur.execute(query1)
         for row in cur:
-            table.append([row['ref_id'], row['matches_judged'], ['first_name'], ['middle_name'], ['last_name']])
+            table.append([row['referee_id'], row['matches_judged'], row['first_name'], row['middle_name'], row['last_name']])
     except:
         return 1
     print_table(table)
@@ -201,15 +205,17 @@ def query_26(con, cur):
 
 
 def query_27(con, cur):
-    phn=input("Enter Phone Number")
-    query1=f"SELECT * FROM spectator_match sp, futsal_match m WHERE sp.fpn='{phn}'' AND m.match_id=sp.match_id;"
+    phn=input("Enter First Phone Number")
+    query1=f"SELECT * FROM spectator_match sp, futsal_match m WHERE sp.spfpn='{phn}' AND m.match_id=sp.match_id;"
     table = list()
     table.append(["Match ID", "Date"])
     try:
         cur.execute(query1)
         for row in cur:
-            table.append([row['match_id'], row['date']])
-    except:
+            table.append([row['match_id'], row['match_date']])
+    except Exception as e:
+        print(e)
+        print("Some error occured")
         return 1
     print_table(table)
 
@@ -220,10 +226,12 @@ def query_28(con, cur):
     query1=f"SELECT * FROM goal_scored WHERE pjn={jersey} AND team_name='{team_name}' AND match_id='{match_id}';"
     try:
         val=cur.execute(query1)
-        print(val)
         if val==0:
             print("Player has scored 0 goals")
             print()
         else:
             for row in cur:
-                print("The player scored ",row['nog']," goals in the match")
+                print(f"The player scored {row['nog']} goals in the match")
+    except:
+        print("Some error occured")
+

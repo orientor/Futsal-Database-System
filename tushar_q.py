@@ -321,7 +321,8 @@ def query_23(con, cur):
         if (cnt<ctr):
             sno = cnt+1
             sno = str(sno)
-            query=f"select * from coach where team_name='{team_name}';"
+            temp = row['name']
+            query=f"select * from coach where team_name='{temp}';"
             cnt=cnt+1
     for val in lst:
         query=val[5]
@@ -346,8 +347,8 @@ def query_24(con, cur):
         sz=sz+1
 
     if (sz<x):
-        print("There are only ","")
-        print(sz," match(es), enter a smaller x")
+        print("There are only ",end="")
+        print(f"{sz} match(es), enter a smaller x")
         return
 
     table = list()

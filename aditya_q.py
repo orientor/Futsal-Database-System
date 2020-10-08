@@ -32,7 +32,7 @@ def query_3(con, cur):
     if position == "goalkeeper":
         position = "goalrakshak"
     if(check_team(team_name, con, cur) and check_name_without_space(first_name) and check_name_without_space(middle_name) and check_name_without_space(last_name)
-        and datecheck(dob) and  check_positive_int(jersey_no, "Jersey no.") and check_positive_int(total_goals, "Total goals") and check_position(position)):
+        and playeragecheck(dob) and  checkgz(jersey_no, "Jersey no.") and check_positive_int(total_goals, "Total goals") and check_position(position)):
         query = f"INSERT INTO player(team_name, first_name, middle_name, last_name, dob, jersey_no, total_goals, position)"
         query += f" VALUES('{team_name}', '{first_name}', '{middle_name}', '{last_name}', '{dob}', {jersey_no}, {total_goals}, '{position}');"
         print(query)
@@ -69,9 +69,10 @@ def delete_player(team_name, jersey_no, con, cur):
     cpt = get_team_captain(team_name,con,cur)
     query = f"DELETE FROM team_captain WHERE pjn={jersey_no} AND team_name='{team_name}';";
     cur.execute(query);
-    for x in ["goalrakshak", "forward", "defence", "midfielder"]:
+    for x in ['goalrakshak', 'forward', 'defence', 'midfielder']:
         query = f"DELETE FROM {x} WHERE pjn={jersey_no} AND team_name='{team_name}';"
         cur.execute(query)
+    con.commit()
     query = f"DELETE from player WHERE team_name='{team_name}' AND jersey_no={jersey_no};"
     try:
         cur.execute(query)
@@ -182,7 +183,10 @@ def query_15(con, cur):
     cur.execute(query)
     for row in cur:
         cap=row['pjn']
-    print("Team captain is Jersey No ", cap)
+    if(cap==0):
+        print("There is no captain of this team!")
+    else:
+        print("Team captain is Jersey No ", cap)
 
 
 def query_7(con,cur):

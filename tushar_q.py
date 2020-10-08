@@ -137,7 +137,7 @@ def query_13(con, cur):
         return 0
     num=list()
     for i in range (0,total_no):
-        print(i,". ")
+        print(i+1,"th Number: ")
         num.append(input("Enter number:"))
         if (check_number(num[i])==0):
             return 0
@@ -164,7 +164,7 @@ def query_13(con, cur):
     for i in range (1,len(num)):
         fpn=num[0]
         pn=num[i]
-        query = f"INSERT INTO stadium_number(fpn, pn) VALUES({fpn}, {pn});"
+        query = f"INSERT INTO stadium_number(sfpn, pn) VALUES({fpn}, {pn});"
         print(query)
         try:
             cur.execute(query)

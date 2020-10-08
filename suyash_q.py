@@ -60,16 +60,20 @@ def query_5(con, cur):
         con.commit()
         query=f"select jersey_no from player where team_name='{team1}';"
         cur.execute(query)
+        lst=list()
         for row in cur:
             query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, '{team1}');"
-            cur.execute(query2)
-            con.commit()
+            lst.append(query2)
+        for val in lst:
+            cur.execute(val)
         query=f"select jersey_no from player where team_name='{team2}';"
         cur.execute(query)
+        lst=list()
         for row in cur:
             query2=f"INSERT INTO player_match(pjn, match_id, team_name) VALUES({int(row['jersey_no'])}, {id}, '{team2}');"
-            cur.execute(query2)
-            con.commit()
+            lst.append(query2)
+        for val in lst:
+            cur.execute(val)
         query = f"UPDATE referee SET matches_judged=matches_judged+1 WHERE referee_id={ref};"
         cur.execute(query)
         query = f"UPDATE stadium SET nomp=nomp+1 WHERE fpn='{stadium}';"

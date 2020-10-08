@@ -22,9 +22,22 @@ def check_positive_int(num, varname):
             print('Error: {varname} should be integer')
             return 0
     if(num < 0):
+        print(f"Error: {varname} should be greater than or equal to zero.")
+        return 0
+    return 1
+
+def checkgz(num, varname):
+    if(type(num)==str):
+        try:
+            num = int(num)
+        except ValueError:
+            print('Error: {varname} should be integer')
+            return 0
+    if(num <= 0):
         print(f"Error: {varname} should be greater than zero.")
         return 0
     return 1
+
 def get_team_captain(team_name, con, cur):
     query = f"SELECT pjn from team_captain where team_name='{team_name}';"
     cur.execute(query)
@@ -56,6 +69,7 @@ def check_position(position):
         return 1
     if position=='goalrakshak':
         return 1
+    print("Enter correct position")
     return 0
 def print_table(x):
     mlen = list()

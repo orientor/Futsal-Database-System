@@ -29,7 +29,7 @@ def datecheck_future(date):
 
 def playeragecheck(dob):
     try:
-        datetime.strptime(dob, '%Y-%m-%d')
+        dob=datetime.strptime(dob, '%Y-%m-%d')
     except ValueError:
         raise ValueError("Incorrect data format, should be YYYY-MM-DD")
         return 0

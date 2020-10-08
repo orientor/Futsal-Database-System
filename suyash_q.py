@@ -180,13 +180,18 @@ def query_22(con, cur):
         stadname=row['name']
     table=list()
     temp = match_date.strftime("%Y-%m-%d")
-    table.append(["match id", "match date", "winner" ,"loser", "total goals", "stadium"])
+    table.append(["match id", "match date", "winner" ,"loser", "total goals", "stadium", "Referee ID"])
+    query = f"SELECT * FROM referee_match WHERE match_id={match_id}"
+    cur.execute(query)
+    referee_id=0
+    for row in cur:
+        referee_id=row['referee_id']
     if(match_date > datetime.now().date()):
-        table.append([match_id, match_date, "TBD","TBD", total_goals, stadname])
+        table.append([match_id, match_date, "TBD","TBD", total_goals, stadname, referee_id])
     elif winner_id is None:
-        table.append([match_id, match_date, "TIED","TIED", total_goals, stadname])
+        table.append([match_id, match_date, "TIED","TIED", total_goals, stadname, referee_id])
     else:
-        table.append([match_id, match_date, winner_id,loser, total_goals, stadname])
+        table.append([match_id, match_date, winner_id,loser, total_goals, stadname, referee_id])
     print_table(table)
 
 def query_26(con, cur):

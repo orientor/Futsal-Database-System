@@ -171,9 +171,19 @@ def query_15(con, cur):
     table = list()
     table.append(["team_name" , "first_name", "middle_name", "last_name", "dob" , "age", "jersey_no", "total_goals","position" ])
     for row in cur:
-        age = get_player_age(row['dob'])
+        try:
+            age = get_player_age(row['dob'])
+        except:
+            age="not defined"
         table.append([row["team_name" ],row[ "first_name"],row[ "middle_name"],row[ "last_name"],row[ "dob" ],str(age),row[ "jersey_no"],row[ "total_goals"],row["position" ]])
     print_table(table)
+    query=f"SELECT * FROM team_captain where team_name='{team_name}';"
+    cap=0
+    cur.execute(query)
+    for row in cur:
+        cap=row['pjn']
+    print("Team captain is Jersey No ", cap)
+
 
 def query_7(con,cur):
     match_id = input("Enter match id")
@@ -197,5 +207,3 @@ def query_7(con,cur):
     for x in com:
         cur.execute(x)
     con.commit()
-
-    

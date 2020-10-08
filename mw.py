@@ -125,11 +125,39 @@ while(1):
         while(1):
         #tmp = sp.call('clear', shell=True)
         # Here taking example of Employee Mini-world
-            print("1. Option 1") # Hire an Employee
-            print("2. Option 2") # Fire an Employee
-            print("3. Option 3") # Promote Employee
-            print("4. Option 4") # Employee Statistics
-            print("5. Logout")
-            ch = int(input("Enter choice> "))
+            print("1. REGISTER A TEAM") # Hire an Employee
+            print("2. KICK A TEAM") # Fire an Employee
+            print("3. REGISTER A PLAYER") # Promote Employee
+            print("4. DELETE A PLAYER") # Employee Statistics
+            print("6. UPDATE MATCH STATUS")
+            print("7. SET MATCH STATUS TO DRAW")
+            print("8. REGISTER A COACH")
+            print("9. REPLACE A COACH")
+            print("10. REGISTER A REFEREE")
+            print("11. DISCONTINUE AS A REFEREE")
+            print("12. BOOK TICKET")
+            print("13. ADD STADIUM")
+            print("14. GOAL UPDATE")
+            print("15. GET TEAM DATA(PLAYERS)")
+            print("16. GET TEAMS WITH SCORE ATLEAST Y")
+            print("17. GET THE HIGHEST SCORING PLAYER")
+            print("18. SEARCH PLAYER BY NAME")
+            print("19. SEE CHAMPIONSHIP STANDINGS TABLE")
+            print("20. CHAMPIONSHIP STANDINGS OF TOP X TEAMS")
+            print("21. GET TEAM STATS")
+            print("22. FETCH MATCH DETAILS")
+            print("23. GET COACHES OF TOP 3 TEAMS")
+            print("24. CREATE STADIUM OF TOP X HIGHEST SCORING MATCHES")
+            print("25. GET GOALS SCORED BY A PLAYER IN A MATCH")
+            print("26. GET REFEREE DETAILS")
+            print("27. GET MATCHES TO BE WATCHED BY A SPECTATOR")
+            print("28. Exit")
+            try:
+                ch = int(input("Enter choice> "))
+            except:
+                print("Enter valid query!")
+                continue
+            if(ch==28):
+                exit()
             #tmp = sp.call('clear', shell=True)
             dispatch(ch, con, cur)

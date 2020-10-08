@@ -16,8 +16,8 @@ def suy(ch, con, cur):
         query_26(con,cur)
     if(ch==27):
         query_27(con, cur)
-    if(ch==28):
-        query_28(con, cur)
+    if(ch==25):
+        query_25(con, cur)
 
 
 def query_5(con, cur):
@@ -232,7 +232,7 @@ def query_27(con, cur):
         return 1
     print_table(table)
 
-def query_28(con, cur):
+def query_25(con, cur):
     team_name=input("Enter team name")
     jersey=int(input("Enter jersey number"))
     match_id=int(input("Enter match ID"))

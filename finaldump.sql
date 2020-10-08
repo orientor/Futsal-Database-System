@@ -18,7 +18,9 @@
 --
 -- Table structure for table `coach`
 --
-
+DROP DATABASE IF EXISTS futsal;
+CREATE DATABASE futsal;
+USE futsal;
 DROP TABLE IF EXISTS `coach`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

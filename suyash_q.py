@@ -26,7 +26,7 @@ def query_5(con, cur):
     stadium = input("Enter the first phone number of the stadium")
     ref = input("Enter referee ID")
     dat=input("Enter date of the match")
-    if((check_name(team1) and  check_name(team2) and  check_number(stadium) and ref.isnumeric() and datecheck(dat))):
+    if((check_name(team1) and  check_name(team2) and  check_number(stadium) and ref.isnumeric() and datecheck_future(dat))):
         query = f"INSERT INTO futsal_match(match_date, sfpn) VALUES('{dat}', '{stadium}');"
         try:
             cur.execute(query)
@@ -175,13 +175,15 @@ def query_22(con, cur):
         total_goals=row['total_goals']
         winner_id=row['winner_id']
     cur.execute(query)
+    stadname = ""
     for row in cur:
         stadname=row['name']
     table=list()
+    temp = match_date.strftime("%Y-%m-%d")
     table.append(["match id", "match date", "winner" ,"loser", "total goals", "stadium"])
-    if(match_date>datetime.now()):
+    if(match_date > datetime.now().date()):
         table.append([match_id, match_date, "TBD","TBD", total_goals, stadname])
-    if winner_id is None:
+    elif winner_id is None:
         table.append([match_id, match_date, "TIED","TIED", total_goals, stadname])
     else:
         table.append([match_id, match_date, winner_id,loser, total_goals, stadname])

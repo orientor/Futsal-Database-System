@@ -179,6 +179,8 @@ def query_22(con, cur):
         stadname=row['name']
     table=list()
     table.append(["match id", "match date", "winner" ,"loser", "total goals", "stadium"])
+    if(match_date>datetime.now()):
+        table.append([match_id, match_date, "TBD","TBD", total_goals, stadname])
     if winner_id is None:
         table.append([match_id, match_date, "TIED","TIED", total_goals, stadname])
     else:
@@ -234,4 +236,3 @@ def query_28(con, cur):
                 print(f"The player scored {row['nog']} goals in the match")
     except:
         print("Some error occured")
-
